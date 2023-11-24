@@ -77,34 +77,34 @@ outclean:
                 -o $(DST_DIR)/out.thy -o $(DST_DIR)/out.v -o $(DST_DIR)/outScript.sml 	\
 	        -o $(DST_DIR)/out.tex 						\
                 $<                                                      \
-	&& ($(LATEX) out; $(DVIPS) out -o)
+	&& ($(LATEX) $(DST_DIR)/out; $(DVIPS) out -o)
 
 %.tex.out: %.ott
 	ott   							\
 	        -o $(DST_DIR)/out.tex 						\
                 $<                                                      \
-	&& ($(LATEX) out; $(DVIPS) out -o)
+	&& ($(LATEX) $(DST_DIR)/out; $(DVIPS) out -o)
 
 %.coq.out: %.ott
 	ott   							\
                 -o $(DST_DIR)/out.v  						\
 	        -o $(DST_DIR)/out.tex 						\
                 $<                                                      \
-	&& ($(LATEX) out; $(DVIPS) out -o)
+	&& ($(LATEX) $(DST_DIR)/out; $(DVIPS) out -o)
 
 %.hol.out: %.ott
 	ott   							\
                 -o $(DST_DIR)/outScript.sml 					\
 	        -o $(DST_DIR)/out.tex 						\
                 $<                                                      \
-	&& ($(LATEX) out; $(DVIPS) out -o)
+	&& ($(LATEX) $(DST_DIR)/out; $(DVIPS) out -o)
 
 %.isa.out: %.ott
 	ott   							\
                 -o $(DST_DIR)/out.thy 					\
 	        -o $(DST_DIR)/out.tex 						\
                 $<                                                      \
-	&& ($(LATEX) out; $(DVIPS) out -o)
+	&& ($(LATEX) $(DST_DIR)/out; $(DVIPS) out -o)
 
 # test10 special cases 
 
@@ -117,14 +117,14 @@ test10: tests/test10.ott
 	        -parse ":user_syntax: \x1'.x1'"  			\
 	        -parse ":concrete_t:\x1'.x1'"                      	\
                 tests/test10.ott                           		\
-	&& ($(LATEX) out; $(DVIPS) out -o)
+	&& ($(LATEX) $(DST_DIR)/out; $(DVIPS) out -o)
 
 test10st_halves: tests/test10st_first_half.ott tests/test10st_second_half.ott
 	ott  -o $(DST_DIR)/out.thy -o $(DST_DIR)/out.v -o $(DST_DIR)/out.tex 		\
 	         -o $(DST_DIR)/outScript.sml 					\
                  tests/test10st_first_half.ott 			 	\
                  tests/test10st_second_half.ott    			\
-	&& ($(LATEX) out; $(DVIPS) out -o)
+	&& ($(LATEX) $(DST_DIR)/out; $(DVIPS) out -o)
 
 test10_isasyn: tests/test10_isasyn.ott
 	ott -colour true -showraw false  				\
@@ -132,7 +132,7 @@ test10_isasyn: tests/test10_isasyn.ott
                 -isa_syntax true 					\
 	        -tex_show_meta true                                     \
                 tests/test10_isasyn.ott                              	\
-	&& ($(LATEX) out; $(DVIPS) out -o)
+	&& ($(LATEX) $(DST_DIR)/out; $(DVIPS) out -o)
 
 # test 7 special case - ott as a munger
 
@@ -143,7 +143,7 @@ test7afilter: tests/test7b.ott tests/test7t.mng
 	       -tex_name_prefix	ott					\
 	       -tex_filter tests/test7t.mng out.tex        		\
                tests/test7b.ott 			      		\
-        && ($(LATEX) out; $(DVIPS) out -o)
+        && ($(LATEX) $(DST_DIR)/out; $(DVIPS) out -o)
 
 # TAPL examples
 
@@ -238,43 +238,43 @@ SYS_PURERCDSUB = $(SYS_PURESUB) 	\
 
 sys-bool: $(SYS_BOOL) 
 	ott -merge true -tex_show_meta false -o $(DST_DIR)/out.tex -o $(DST_DIR)/out.v -o $(DST_DIR)/out.thy -o $(DST_DIR)/outScript.sml $(SYS_BOOL) \
-	&& ($(LATEX) out; $(DVIPS) out -o)
+	&& ($(LATEX) $(DST_DIR)/out; $(DVIPS) out -o) 
 
 sys-arith: $(SYS_ARITH)
 	ott -merge true -tex_show_meta false -o $(DST_DIR)/out.tex -o $(DST_DIR)/out.v -o $(DST_DIR)/out.thy -o $(DST_DIR)/outScript.sml $(SYS_ARITH) \
-	&& ($(LATEX) out; $(DVIPS) out -o)
+	&& ($(LATEX) $(DST_DIR)/out; $(DVIPS) out -o)
 
 sys-untyped: $(SYS_UNTYPED)
 	ott -merge true -tex_show_meta false -o $(DST_DIR)/out.tex -o $(DST_DIR)/out.v -o $(DST_DIR)/out.thy -o $(DST_DIR)/outScript.sml $(SYS_UNTYPED) \
-	&& ($(LATEX) out; $(DVIPS) out -o)
+	&& ($(LATEX) $(DST_DIR)/out; $(DVIPS) out -o)
 
 sys-puresimple: $(SYS_PURESIMPLE)
 	ott -merge true -tex_show_meta false -o $(DST_DIR)/out.tex -o $(DST_DIR)/out.v -o $(DST_DIR)/out.thy -o $(DST_DIR)/outScript.sml $(SYS_PURESIMPLE) \
-	&& ($(LATEX) out; $(DVIPS) out -o)
+	&& ($(LATEX) $(DST_DIR)/out; $(DVIPS) out -o)
 
 sys-tuple: $(SYS_TUPLE)
 	ott -merge true -tex_show_meta false -o $(DST_DIR)/out.tex -o $(DST_DIR)/out.v -o $(DST_DIR)/out.thy -o $(DST_DIR)/outScript.sml $(SYS_TUPLE) \
-	&& ($(LATEX) out; $(DVIPS) out -o)
+	&& ($(LATEX) $(DST_DIR)/out; $(DVIPS) out -o)
 
 sys-tybool: $(SYS_TYBOOL)
 	ott -merge true -tex_show_meta false -o $(DST_DIR)/out.tex -o $(DST_DIR)/out.v -o $(DST_DIR)/out.thy -o $(DST_DIR)/outScript.sml $(SYS_TYBOOL) \
-	&& ($(LATEX) out; $(DVIPS) out -o)
+	&& ($(LATEX) $(DST_DIR)/out; $(DVIPS) out -o)
 
 sys-sortoffullsimple: $(SYS_SORTOFFULLSIMPLE)
 	ott -merge true -tex_show_meta false -o $(DST_DIR)/out.tex -o $(DST_DIR)/out.v -o $(DST_DIR)/out.thy -o $(DST_DIR)/outScript.sml $(SYS_SORTOFFULLSIMPLE) \
-	&& ($(LATEX) out; $(DVIPS) out -o)
+	&& ($(LATEX) $(DST_DIR)/out; $(DVIPS) out -o)
 
 sys-roughlyfullsimple: $(SYS_ROUGHLYFULLSIMPLE)
 	ott -merge true -tex_show_meta false -o $(DST_DIR)/out.tex -o $(DST_DIR)/out.v -o $(DST_DIR)/out.thy -o $(DST_DIR)/outScript.sml $(SYS_ROUGHLYFULLSIMPLE) \
-	&& ($(LATEX) out; $(DVIPS) out -o)
+	&& ($(LATEX) $(DST_DIR)/out; $(DVIPS) out -o)
 
 sys-puresub: $(SYS_PURESUB)
 	ott -merge true -tex_show_meta false -o $(DST_DIR)/out.tex -o $(DST_DIR)/out.v -o $(DST_DIR)/out.thy -o $(DST_DIR)/outScript.sml $(SYS_PURESUB) \
-	&& ($(LATEX) out; $(DVIPS) out -o)
+	&& ($(LATEX) $(DST_DIR)/out; $(DVIPS) out -o)
 
 sys-purercdsub: $(SYS_PURERCDSUB)
 	ott -merge true -tex_show_meta false -o $(DST_DIR)/out.tex -o $(DST_DIR)/out.v -o $(DST_DIR)/out.thy -o $(DST_DIR)/outScript.sml $(SYS_PURERCDSUB) \
-	&& ($(LATEX) out; $(DVIPS) out -o)
+	&& ($(LATEX) $(DST_DIR)/out; $(DVIPS) out -o)
 
 # Jenksin regression
 
