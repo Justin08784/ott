@@ -1,0 +1,101 @@
+% examples/tapl/nat.ott was an 'inspiration'
+
+metavar var, x ::=   {{ com  term variable }} 
+{{ isa string}} {{ coq nat}} {{ hol string}} {{ lem string }} {{ coq-equality }}
+{{ ocaml int}} {{ lex alphanum}} {{ tex \mathit{[[var]]} }}
+
+
+
+grammar
+t :: Tm ::=                                       {{ com terms: }}
+| ( t )                      :: M :: Paren      {{ ich [[t]] }}
+| 0                          ::   :: Zero       {{ com constant zero }}
+| S t                        ::   :: Succ       {{ com successor }}
+| P t                        ::   :: Pred       {{ com predeccessor }}
+| iszero t                   ::   :: Iszero     {{ com zero test }}
+
+v :: Va ::=                                       {{ com values: }}
+  | 0                          ::   :: Zero       {{ com zero value }}
+  | S v                        ::   :: Succ       {{ com successor value }}
+  
+
+subrules
+v <:: t
+
+defns 
+Jop :: '' ::= 
+
+defn 
+t --> t' :: :: red :: E_ {{ com Evaluation }} by
+
+t1 --> t1'
+-------------------- :: Succ
+S t1 --> S t1'
+
+------------ :: PredZero
+P 0 --> 0
+
+--------------------- :: PredSucc
+P (S v1) --> v1 
+
+t1 --> t1'
+-------------------- :: Pred
+P t1 --> P t1'
+
+
+
+
+
+% grammar
+% term, t :: 't_' ::=                          {{ com term    }}
+%     | ( t )                         :: M :: Paren     {{ ich [[t]] }}
+%     % I had to import ( t ) from examples/tapl/common.ott. Without it, P_S_cancel complains.
+%     | Z            ::   :: zero
+%     | S t          ::   :: S     {{ icho [[t]] }}
+%     | P t          ::   :: P     {{ icho [[t]] }}
+% %   | x            ::   :: var                   {{ com variable}}
+% %   | \ x . t      ::   :: lam (+ bind x in t +) {{ com lambda  }}
+% %   | t t'         ::   :: app                   {{ com app     }}
+% %   | ( t )        :: S :: paren                 {{ icho [[t]]  }}  {{ lem [[t]] }}
+% %   | { t / x } t' :: M :: sub  
+% %                          {{ icho (tsubst_term [[t]] [[x]] [[t']])}}
+% %   {{ lem (tsubst_term [[t]] [[x]] [[t']]) }}
+% val,v :: 'v_' ::=                            {{ com values:   }}
+%     | Z         :: :: zero                   {{ com zero value }}
+%     | S v       :: :: S                   {{ com successor value }}
+
+% terminals :: 'terminals_' ::=
+% %   | \            ::   :: lambda  {{ tex \lambda }}
+%   | -->          ::   :: red     {{ tex \longrightarrow }}
+
+% subrules
+%   val <:: term
+
+% % substitutions
+% %   single term var :: tsubst 
+
+% defns
+% Jop :: '' ::=
+
+%  defn
+%  t1 --> t2 :: ::reduce::'' {{ com $[[t1]]$ reduces to $[[t2]]$ }} {{ lemwcf  witness type reduce_witness; check reduce_check; eval : input -> output }} by
+
+
+%     % --------------------------  :: ax_app
+%     % (\x.t1) v2 -->  {v2/x}t1
+
+%     t1 --> t1'
+%     -------------- :: S_cong
+%     S t1 --> S t1'
+
+%     -------------- :: prec_zero
+%     P Z --> Z
+
+%     -------------- :: P_S_cancel
+%     P (S v1) --> v1
+
+%     t1 --> t1'
+%     -------------- :: P_cong
+%     P t1 --> P t1'
+
+

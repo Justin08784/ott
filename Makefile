@@ -72,6 +72,19 @@ outclean:
 
 # normal case, e.g. "make tests/test8.out"
 
+
+# l23_deps = tests/l23.ott tests/l23_typing.ott
+l23_deps = tests/l23.ott 
+tests/l23.out: $(l23_deps)
+	ott -merge true -o $(DST_DIR)/l23.thy -o $(DST_DIR)/l23.v -o $(DST_DIR)/l23Script.sml -o $(DST_DIR)/l23.tex 		\
+					$(l23_deps) 		\
+
+# && ($(LATEX) $(DST_DIR)/l23; $(DVIPS) out -o)
+
+
+
+
+
 %.out: %.ott 
 	ott   							\
                 -o $(DST_DIR)/out.thy -o $(DST_DIR)/out.v -o $(DST_DIR)/outScript.sml 	\
