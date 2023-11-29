@@ -4,98 +4,24 @@ metavar var, x ::=   {{ com  term variable }}
 {{ isa string}} {{ coq nat}} {{ hol string}} {{ lem string }} {{ coq-equality }}
 {{ ocaml int}} {{ lex alphanum}} {{ tex \mathit{[[var]]} }}
 
-
-
 grammar
 t :: Tm ::=                                       {{ com terms: }}
 | ( t )                      :: M :: Paren      {{ ich [[t]] }}
 | 0                          ::   :: Zero       {{ com constant zero }}
 | S t                        ::   :: Succ       {{ com successor }}
 | P t                        ::   :: Pred       {{ com predeccessor }}
-| iszero t                   ::   :: Iszero     {{ com zero test }}
-| iseven t                   ::   :: Iseven     {{ com even test }}
-| T                          ::   :: True       {{ com constant zero }}
-| F                          ::   :: False      {{ com constant zero }}
-| t1 ? t2 : t3               ::   :: Cond       {{ com conditional }}
-| not t                      ::   :: Not        {{ com not }}
 
 nv :: NVa ::=                                     {{ com numerical values: }} 
   | 0                          ::   :: Zero       {{ com zero value }}
   | S nv                       ::   :: Succ       {{ com successor value }}
 
-bv :: BVa ::=                                     {{ com boolean values: }} 
-  | T                          ::   :: True       {{ com true value }}
-  | F                          ::   :: False      {{ com false value }}
-
 v :: Va ::=                                       {{ com values: }}
   | 0                          ::   :: Zero       
   | S nv                       ::   :: Succ       
-  | T                          ::   :: True
-  | F                          ::   :: False
-%   | nv
   
-
 subrules
 nv <:: v
-bv <:: v
 v <:: t
-
-defns 
-Jop :: '' ::= 
-
-defn 
-t --> t' :: :: red :: E_ {{ com Evaluation }} by
-
-t1 --> t1'
--------------------- :: Succ
-S t1 --> S t1'
-
------------- :: PredZero
-P 0 --> 0
-
---------------------- :: PredSucc
-P (S v1) --> v1 
-
-t1 --> t1'
--------------------- :: Pred
-P t1 --> P t1'
-
-
--------------------- :: CondTrue
-T ? t2 : t3 --> t2
-
--------------------- :: CondFalse
-F ? t2 : t3 --> t3
-
-
-t1 --> t1'
--------------------- :: Cond
-t1 ? t2 : t3 --> t1' ? t2 : t3
-
--------------------- :: NotTrue
-not T --> F
-
--------------------- :: NotFalse
-not F --> T
-
-t1 --> t1'
--------------------- :: Not
-not t1 --> not t1'
-
-
-
--------------------- :: IsEvenZero
-iseven 0 --> T
-
-
--------------------- :: IsEvenSucc
-iseven (S nv) --> not (iseven nv)
-
-
-t1 --> t1'
--------------------- :: IsEven
-iseven t --> iseven t1'
-
 
 defns 
 Jop :: '' ::= 
@@ -117,36 +43,6 @@ t $ 0
 t $ S nv
 ---------- :: PredSucc
 (P t) $ nv
-
-
-t1 $ T
--------------------- :: CondTrue
-t1 ? t2 : t3 $ t2
-
-t1 $ F
--------------------- :: CondFalse
-t1 ? t2 : t3 $ t3
-
-
-
-t1 $ T
--------------------- :: NotTrue
-not t1 $ F
-
-t1 $ F
--------------------- :: NotFalse
-not t1 $ T
-
-
-t1 $ 0
--------------------- :: IsEvenZero
-iseven t1 $ T
-
-
-t1 $ (S nv)
--------------------- :: IsEvenSucc
-iseven (S nv) $ F
-
 
 
 
