@@ -23,7 +23,7 @@ nv :: NVa ::=                                     {{ com numerical values: }}
   | 0                          ::   :: Zero       {{ com zero value }}
   | S nv                       ::   :: Succ       {{ com successor value }}
 
-bv :: NVa ::=                                     {{ com boolean values: }} 
+bv :: BVa ::=                                     {{ com boolean values: }} 
   | T                          ::   :: True       {{ com true value }}
   | F                          ::   :: False      {{ com false value }}
 
@@ -97,6 +97,23 @@ t1 --> t1'
 iseven t --> iseven t1'
 
 
+defns 
+Jop :: '' ::= 
+
+defn 
+t $ t' :: :: redB :: EB_ {{ com BigStep }} by
+
+----- :: Val
+v $ v
+
+
+t $ 0
+---------- :: PredZero
+(P t) $ 0
+
+t $ S nv
+---------- :: PredSucc
+(P t) $ nv
 
 
 

@@ -33,8 +33,30 @@ Proof.
 
 Qed.
 
+Lemma PPZ_bigstep_Z : redB (TmPred (TmPred TmZero)) TmZero.
+Proof.
+  assert (redB TmZero TmZero) as RedInner1.
+  {
+    (* Apply the appropriate reduction rule *)
+    apply EB_Val.
+    simpl. reflexivity.
+  }
+  
+  (* Prove the inner reduction: TmPred TmZero reduces to TmZero *)
+  assert (redB (TmPred TmZero) TmZero) as RedInner2.
+  {
+    (* Apply the appropriate reduction rule *)
+    apply EB_PredZero in RedInner1.
+    assumption.
+  }
 
-Lemma PPZ_to_PZ : red (TmIseven (TmSucc (TmZero))) (TmNot (TmIseven TmZero)).
+  apply EB_PredZero in RedInner2.
+  assumption.
+  (* trivial. *)
+Qed.
+
+
+Lemma iseven_example : red (TmIseven (TmSucc (TmZero))) (TmNot (TmIseven TmZero)).
 Proof.
   (* Prove the inner reduction: TmPred TmZero reduces to TmZero *)
   eapply E_IsEvenSucc.
