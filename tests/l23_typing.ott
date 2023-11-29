@@ -1,5 +1,5 @@
 grammar
-T {{ hol Typ }}, S, U :: Ty ::=                     {{ com types: }}
+T {{ hol Typ }}:: Ty ::=                     {{ com types: }}
   | N                          ::   :: Nat          {{ com type of natural numbers }}
   | B                          ::   :: Bool         {{ com type of booleans }}
   
