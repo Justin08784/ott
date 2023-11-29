@@ -89,7 +89,7 @@ iseven 0 --> T
 
 
 -------------------- :: IsEvenSucc
-iseven S nv --> not (iseven nv)
+iseven (S nv) --> not (iseven nv)
 
 
 t1 --> t1'
