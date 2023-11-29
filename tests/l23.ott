@@ -101,7 +101,7 @@ defns
 Jop :: '' ::= 
 
 defn 
-t $ t' :: :: redB :: EB_ {{ com BigStep }} by
+t $ t' :: :: redB :: EB_ {{ com Big-Step Evaluation }} by
 
 ----- :: Val
 v $ v
@@ -114,6 +114,36 @@ t $ 0
 t $ S nv
 ---------- :: PredSucc
 (P t) $ nv
+
+
+t1 $ T
+-------------------- :: CondTrue
+t1 ? t2 : t3 $ t2
+
+t1 $ F
+-------------------- :: CondFalse
+t1 ? t2 : t3 $ t3
+
+
+
+t1 $ T
+-------------------- :: NotTrue
+not t1 $ F
+
+t1 $ F
+-------------------- :: NotFalse
+not t1 $ T
+
+
+t1 $ 0
+-------------------- :: IsEvenZero
+iseven t1 $ T
+
+
+t1 $ (S nv)
+-------------------- :: IsEvenSucc
+iseven (S nv) $ F
+
 
 
 
