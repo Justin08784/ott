@@ -106,6 +106,9 @@ t $ t' :: :: redB :: EB_ {{ com Big-Step Evaluation }} by
 ----- :: Val
 v $ v
 
+t1 $ nv1
+---------- :: Succ
+S t1 $ S nv1
 
 t $ 0
 ---------- :: PredZero

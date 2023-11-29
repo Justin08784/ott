@@ -62,3 +62,24 @@ Proof.
   eapply E_IsEvenSucc.
   simpl. reflexivity.
 Qed.
+
+
+
+Lemma PSPZ_to_Z : redB (TmPred (TmSucc (TmPred TmZero))) TmZero.
+Proof.
+  assert (redB TmZero TmZero) as Z_to_Z.
+  {
+    (* Apply the appropriate reduction rule *)
+    apply EB_Val.
+    simpl. reflexivity.
+  }
+  apply EB_PredZero in Z_to_Z as PZ_to_Z.
+  apply EB_Succ in PZ_to_Z as SPZ_to_SZ.
+  apply EB_PredSucc in SPZ_to_SZ as RV.
+
+
+  apply RV.
+
+  simpl. reflexivity.
+  simpl. reflexivity.
+Qed.
