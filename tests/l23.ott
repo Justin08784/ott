@@ -1,4 +1,4 @@
-% examples/tapl/nat.ott was an 'inspiration'
+
 
 metavar var, x ::=   {{ com  term variable }} 
 {{ isa string}} {{ coq nat}} {{ hol string}} {{ lem string }} {{ coq-equality }}
