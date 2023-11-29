@@ -33,3 +33,10 @@ Proof.
 
 Qed.
 
+
+Lemma PPZ_to_PZ : red (TmIseven (TmSucc (TmZero))) (TmNot (TmIseven TmZero)).
+Proof.
+  (* Prove the inner reduction: TmPred TmZero reduces to TmZero *)
+  eapply E_IsEvenSucc.
+  simpl. reflexivity.
+Qed.

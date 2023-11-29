@@ -1,15 +1,34 @@
 grammar
 T {{ hol Typ }}, S, U :: Ty ::=                     {{ com types: }}
-  | Nat                          ::   :: Nat          {{ com type of natural numbers }}
-
+  | N                          ::   :: Nat          {{ com type of natural numbers }}
+  | B                          ::   :: Bool         {{ com type of booleans }}
+  
 defns
 Jtype :: '' ::= 
 
 defn
 t : T :: :: typing :: T_ {{ com Typing }} by
 
------------------- :: Zero
-0 : Nat
+------------------ :: NatVal
+nv : N
+
+------------------ :: BoolVal
+bv : B
+
+
+
+% grammar
+% T {{ hol Typ }}, S, U :: Ty ::=                     {{ com types: }}
+%   | Nat                          ::   :: Nat          {{ com type of natural numbers }}
+
+% defns
+% Jtype :: '' ::= 
+
+% defn
+% t : T :: :: typing :: T_ {{ com Typing }} by
+
+% ------------------ :: Zero
+% 0 : Nat
 
 % G |- t1 : Nat
 % ------------------ :: Succ
