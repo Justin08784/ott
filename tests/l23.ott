@@ -13,13 +13,30 @@ t :: Tm ::=                                       {{ com terms: }}
 | S t                        ::   :: Succ       {{ com successor }}
 | P t                        ::   :: Pred       {{ com predeccessor }}
 | iszero t                   ::   :: Iszero     {{ com zero test }}
+| iseven t                   ::   :: Iseven     {{ com even test }}
+| T                          ::   :: True       {{ com constant zero }}
+| F                          ::   :: False      {{ com constant zero }}
+| t1 ? t2 : t3               ::   :: Cond       {{ com conditional }}
+| not t                      ::   :: Not        {{ com not }}
+
+nv :: NVa ::=                                     {{ com numerical values: }} 
+  | 0                          ::   :: Zero       {{ com zero value }}
+  | S nv                       ::   :: Succ       {{ com successor value }}
+
+bv :: NVa ::=                                     {{ com boolean values: }} 
+  | T                          ::   :: True       {{ com true value }}
+  | F                          ::   :: False      {{ com false value }}
 
 v :: Va ::=                                       {{ com values: }}
-  | 0                          ::   :: Zero       {{ com zero value }}
-  | S v                        ::   :: Succ       {{ com successor value }}
+  | 0                          ::   :: Zero       
+  | S nv                       ::   :: Succ       
+  | T                          ::   :: True
+  | F                          ::   :: False
+%   | nv
   
 
 subrules
+nv <:: v
 v <:: t
 
 defns 
@@ -41,6 +58,31 @@ P (S v1) --> v1
 t1 --> t1'
 -------------------- :: Pred
 P t1 --> P t1'
+
+
+-------------------- :: CondTrue
+T ? t2 : t3 --> t2
+
+-------------------- :: CondFalse
+F ? t2 : t3 --> t3
+
+
+t1 --> t1'
+-------------------- :: Cond
+t1 ? t2 : t3 --> t1' ? t2 : t3
+
+
+-------------------- :: IsEvenZero
+iseven 0 --> T
+
+
+-------------------- :: IsEvenSucc
+iseven S nv --> not (iseven nv)
+
+
+t1 --> t1'
+-------------------- :: IsEvenFalse
+iseven t --> iseven t1'
 
 
 
