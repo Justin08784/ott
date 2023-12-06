@@ -1,7 +1,16 @@
+
 grammar
 T {{ hol Typ }}:: Ty ::=                     {{ com types: }}
   | N                          ::   :: Nat          {{ com type of natural numbers }}
   | B                          ::   :: Bool         {{ com type of booleans }}
+  | T1 * .. * Tn               ::   :: Tup          {{ com tuple }}      
+  | { l1 : T1 , .. , ln : Tn } ::   :: Rec          {{ com record }}           
+  
+
+formula :: formula_ ::=          
+  | judgement              :: :: judgement
+  | formula1 .. formulan   :: :: dots
+
   
 defns
 Jtype :: '' ::= 
@@ -34,15 +43,23 @@ T : B
 ------------------ :: False
 F : B
 
-t1 : B
-t2 : T
-t3 : T
+t1 : B t2 : T t3 : T
 ------------------ :: Cond
 t1 ? t2 : t3 : T
 
 t1 : B
 ------------------ :: Not
 not t1 : B
+
+
+t1:T1 .. tn:Tn
+------------------------------------- :: Rcd
+{l1 = t1,.., ln = tn}:{l1 : T1,.., ln : Tn}
+
+
+t1:T1 .. tn:Tn
+------------------------------------- :: Tup
+(t1, .., tn) : T1 * .. * Tn
 
 
 

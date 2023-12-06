@@ -1,14 +1,24 @@
-% examples/tapl/nat.ott was an 'inspiration'
 
 metavar var, x ::=   {{ com  term variable }} 
 {{ isa string}} {{ coq nat}} {{ hol string}} {{ lem string }} {{ coq-equality }}
 {{ ocaml int}} {{ lex alphanum}} {{ tex \mathit{[[var]]} }}
 
 
+metavar label, l, k ::=
+ {{ isa string }} {{ coq nat }} {{ hol string }} {{ lex alphanum }}  {{ tex \mathit{[[label]]} }} 
+ {{ com  field label  }}  {{ isavar ''[[label]]'' }} {{ holvar "[[label]]" }}
+ {{ ocamlvar "[[label]]" }}
+
+indexvar index, i, j, n, m  ::= {{ isa nat }} {{ coq nat }} {{ hol num }} {{ lex numeral }}
+  {{ com indices }}
+
+
 
 grammar
 t :: Tm ::=                                       {{ com terms: }}
 | ( t )                      :: M :: Paren      {{ ich [[t]] }}
+% | let p = t in t'            ::   :: Let       (+ bind b(p) in t' +)
+% | x                          ::   :: Var       {{ com variable }}
 | 0                          ::   :: Zero       {{ com constant zero }}
 | S t                        ::   :: Succ       {{ com successor }}
 | P t                        ::   :: Pred       {{ com predeccessor }}
@@ -18,6 +28,15 @@ t :: Tm ::=                                       {{ com terms: }}
 | F                          ::   :: False      {{ com constant zero }}
 | t1 ? t2 : t3               ::   :: Cond       {{ com conditional }}
 | not t                      ::   :: Not        {{ com not }}
+| ( t1 , .. , tn )                ::   :: Tuple
+| t . i                           ::   :: TupleGet                            
+| { l1 = t1 ,  .. , ln = tn }     ::   :: Record  
+| t [ l ]                         ::   :: RecordGet
+
+% p :: 'P_' ::=                                              
+%   | x                                 :: :: ident  (+ b = x  +)
+%   | { l1 = p1 , .. , ln = pn }        :: :: tuple  (+ b = b(p1 .. pn) +) 
+%   | ( p1 , .. , pn )                  :: :: record (+ b = b(p1 .. pn) +) 
 
 nv :: NVa ::=                                     {{ com numerical values: }} 
   | 0                          ::   :: Zero       {{ com zero value }}
@@ -32,8 +51,24 @@ v :: Va ::=                                       {{ com values: }}
   | S nv                       ::   :: Succ       
   | T                          ::   :: True
   | F                          ::   :: False
+  | ( v1 , .. , vn )           ::   :: TupVal
+  | { l1 = v1 , .. , ln = vn } ::   :: RecVal
 %   | nv
   
+
+terminals :: terminals_ ::=
+  | $                      ::   :: bigstep   {{ tex \Downarrow }} 
+  | -->                    ::   :: smallstep {{ tex \longrightarrow }} 
+  | ->                     ::   :: arrow     {{ tex \rightarrow }}
+  | |-                     ::   :: turnstile {{ tex \vdash }}
+  | <:                     ::   :: subtype   {{ tex <: }}
+%   | |->                    ::   :: mapsto    {{ tex \mapsto }}
+%   |  \                     ::   :: lambda    {{ tex  \lambda }}
+%   |  =>                    ::   :: Arrow     {{ tex  \Rightarrow }}
+%   | -->                    ::   :: red       {{ tex \longrightarrow }}
+%   | Forall                 ::   :: forall    {{ tex \forall }}
+%   | =                      ::   :: eq        {{ tex \!\! = \!\! }}
+%   | :                      ::   :: colon     {{ tex \!\! : \!\! }}
 
 subrules
 nv <:: v
@@ -54,7 +89,7 @@ S t1 --> S t1'
 P 0 --> 0
 
 --------------------- :: PredSucc
-P (S v1) --> v1 
+P S v1 --> v1 
 
 t1 --> t1'
 -------------------- :: Pred
@@ -89,12 +124,26 @@ iseven 0 --> T
 
 
 -------------------- :: IsEvenSucc
-iseven (S nv) --> not (iseven nv)
+iseven S nv --> not iseven nv
 
 
 t1 --> t1'
 -------------------- :: IsEven
 iseven t --> iseven t1'
+
+-------------------- :: TupleGet
+(v1, .. , vn).i --> vi
+
+t --> t'
+-------------------- :: Tuple
+(v1, .. , vm, t, t'1, .. , t'n) --> (v1, .. , vm, t', t'1, .. , t'n)
+
+t --> t'
+-------------------- :: Record
+{l1 = v1, .. , lm = vm, l = t, l'1 = t'1, .. , l'n = t'n} --> {l1 = v1, .. , lm = vm, l = t', l'1 = t'1, .. , l'n = t'n}
+
+-------------------- :: RecordGet
+{l1=v1, .. , ln=vn}[lj] --> vj
 
 
 defns 
@@ -112,11 +161,11 @@ S t1 $ S nv1
 
 t $ 0
 ---------- :: PredZero
-(P t) $ 0
+P t $ 0
 
 t $ S nv
 ---------- :: PredSucc
-(P t) $ nv
+P t $ nv
 
 
 t1 $ T
@@ -143,63 +192,12 @@ t1 $ 0
 iseven t1 $ T
 
 
-t1 $ (S nv)
+t1 $ S nv
 -------------------- :: IsEvenSucc
-iseven (S nv) $ F
+iseven S nv $ F
 
 
 
 
-% grammar
-% term, t :: 't_' ::=                          {{ com term    }}
-%     | ( t )                         :: M :: Paren     {{ ich [[t]] }}
-%     % I had to import ( t ) from examples/tapl/common.ott. Without it, P_S_cancel complains.
-%     | Z            ::   :: zero
-%     | S t          ::   :: S     {{ icho [[t]] }}
-%     | P t          ::   :: P     {{ icho [[t]] }}
-% %   | x            ::   :: var                   {{ com variable}}
-% %   | \ x . t      ::   :: lam (+ bind x in t +) {{ com lambda  }}
-% %   | t t'         ::   :: app                   {{ com app     }}
-% %   | ( t )        :: S :: paren                 {{ icho [[t]]  }}  {{ lem [[t]] }}
-% %   | { t / x } t' :: M :: sub  
-% %                          {{ icho (tsubst_term [[t]] [[x]] [[t']])}}
-% %   {{ lem (tsubst_term [[t]] [[x]] [[t']]) }}
-% val,v :: 'v_' ::=                            {{ com values:   }}
-%     | Z         :: :: zero                   {{ com zero value }}
-%     | S v       :: :: S                   {{ com successor value }}
-
-% terminals :: 'terminals_' ::=
-% %   | \            ::   :: lambda  {{ tex \lambda }}
-%   | -->          ::   :: red     {{ tex \longrightarrow }}
-
-% subrules
-%   val <:: term
-
-% % substitutions
-% %   single term var :: tsubst 
-
-% defns
-% Jop :: '' ::=
-
-%  defn
-%  t1 --> t2 :: ::reduce::'' {{ com $[[t1]]$ reduces to $[[t2]]$ }} {{ lemwcf  witness type reduce_witness; check reduce_check; eval : input -> output }} by
-
-
-%     % --------------------------  :: ax_app
-%     % (\x.t1) v2 -->  {v2/x}t1
-
-%     t1 --> t1'
-%     -------------- :: S_cong
-%     S t1 --> S t1'
-
-%     -------------- :: prec_zero
-%     P Z --> Z
-
-%     -------------- :: P_S_cancel
-%     P (S v1) --> v1
-
-%     t1 --> t1'
-%     -------------- :: P_cong
-%     P t1 --> P t1'
 
 
