@@ -198,6 +198,25 @@ iseven S nv $ F
 
 
 
+t1 $ v1 .. tn $ vn
+-------------------- :: Tuple
+(t1, .. , tn) $ (v1, .. , vn)
+
+t1 $ v1 .. tn $ vn
+-------------------- :: Record
+{l1=t1, .. , ln=tn} $ {l1=v1, .. , ln=vn}
+
+
+t $ v
+-------------------- :: TupleGet
+t.i $ v.i
+
+t $ v
+-------------------- :: RecordGet
+t[l] $ v[l]
+
+
+
 
 
 
