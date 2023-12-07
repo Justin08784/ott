@@ -83,3 +83,35 @@ Proof.
   simpl. reflexivity.
   simpl. reflexivity.
 Qed.
+
+
+Lemma ExCondTrue : redB (TmCond TmTrue (TmSucc TmZero) TmZero) (TmSucc TmZero).
+Proof.
+  (* Prove the inner reduction: TmPred TmZero reduces to TmZero *)
+  eapply EB_CondTrue.
+  simpl. 
+  
+  assert (redB TmTrue TmTrue ) as T_to_T.
+  {
+    (* Apply the appropriate reduction rule *)
+    apply EB_Val.
+    simpl. reflexivity.
+  }
+  apply T_to_T.
+Qed.
+
+
+Lemma ExCondFalse : redB (TmCond TmFalse (TmSucc TmZero) TmZero) TmZero.
+Proof.
+  (* Prove the inner reduction: TmPred TmZero reduces to TmZero *)
+  eapply EB_CondFalse.
+  simpl. 
+  
+  assert (redB TmFalse TmFalse) as F_to_F.
+  {
+    (* Apply the appropriate reduction rule *)
+    apply EB_Val.
+    simpl. reflexivity.
+  }
+  apply F_to_F.
+Qed.

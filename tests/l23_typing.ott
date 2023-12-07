@@ -1,10 +1,17 @@
+embed 
+ {{ tex-preamble
+    \usepackage{textgreek}
+ }}
+
+
+
 
 grammar
-T {{ hol Typ }}:: Ty ::=                     {{ com types: }}
+Typ {{ hol Typ }} {{ tex \tau }} :: Ty ::=                     {{ com types: }}
   | N                          ::   :: Nat          {{ com type of natural numbers }}
   | B                          ::   :: Bool         {{ com type of booleans }}
-  | T1 * .. * Tn               ::   :: Tup          {{ com tuple }}      
-  | { l1 : T1 , .. , ln : Tn } ::   :: Rec          {{ com record }}           
+  | Typ1 * .. * Typn               ::   :: Tup          {{ com tuple }}      
+  | { l1 : Typ1 , .. , ln : Typn } ::   :: Rec          {{ com record }}           
   
 
 formula :: formula_ ::=          
@@ -16,7 +23,7 @@ defns
 Jtype :: '' ::= 
 
 defn
-t : T :: :: typing :: T_ {{ com Typing }} by
+t : Typ :: :: typing :: T_ {{ com Typing }} by
 
 ------------------ :: Zero
 0 : N
@@ -44,21 +51,21 @@ T : B
 F : B
 
 t1 : B 
-t2 : T 
-t3 : T
+t2 : Typ 
+t3 : Typ
 ------------------ :: Cond
-t1 ? t2 : t3 : T
+t1 ? t2 : t3 : Typ
 
 t1 : B
 ------------------ :: Not
 not t1 : B
 
 
-t1:T1 .. tn:Tn
+t1:Typ1 .. tn:Typn
 ------------------------------------- :: Rcd
-{l1 = t1,.., ln = tn}:{l1 : T1,.., ln : Tn}
+{l1 = t1,.., ln = tn}:{l1 : Typ1,.., ln : Typn}
 
 
-t1:T1 .. tn:Tn
+t1:Typ1 .. tn:Typn
 ------------------------------------- :: Tup
-(t1, .., tn) : T1 * .. * Tn
+(t1, .., tn) : Typ1 * .. * Typn
