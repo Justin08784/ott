@@ -1,5 +1,5 @@
 grammar
-T {{ hol Typ }}:: Ty ::=                     {{ com types: }}
+Typ {{ hol Typ }} {{ tex \tau }}:: Ty ::=                     {{ com types: }}
   | N                          ::   :: Nat          {{ com type of natural numbers }}
   | B                          ::   :: Bool         {{ com type of booleans }}
   
@@ -7,7 +7,7 @@ defns
 Jtype :: '' ::= 
 
 defn
-t : T :: :: typing :: T_ {{ com Typing }} by
+t : Typ :: :: typing :: T_ {{ com Typing }} by
 
 ------------------ :: Zero
 0 : N

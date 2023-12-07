@@ -6,7 +6,7 @@ metavar var, x ::=   {{ com  term variable }}
 
 grammar
 t :: Tm ::=                                       {{ com terms: }}
-| ( t )                      :: M :: Paren      {{ ich [[t]] }}
+| ( t )                      :: M :: Paren      {{ ich [[t]] }} {{ ocaml int }}
 | 0                          ::   :: Zero       {{ com constant zero }}
 | S t                        ::   :: Succ       {{ com successor }}
 | P t                        ::   :: Pred       {{ com predeccessor }}

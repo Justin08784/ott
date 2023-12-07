@@ -76,7 +76,7 @@ outclean:
 l23_deps = tests/l23.ott tests/l23_typing.ott
 # l23_deps = tests/l23.ott 
 tests/l23.out: $(l23_deps)
-	ott -merge true -o $(DST_DIR)/l23.thy -o $(DST_DIR)/l23.v -o $(DST_DIR)/l23Script.sml -o $(DST_DIR)/l23.tex 		\
+	ott -merge true -o $(DST_DIR)/l23.thy -o $(DST_DIR)/l23.v -o $(DST_DIR)/l23Script.sml -o $(DST_DIR)/l23.tex -o $(DST_DIR)/l23.ml		\
 					$(l23_deps) 		\
 
 # && ($(LATEX) $(DST_DIR)/l23; $(DVIPS) out -o)
