@@ -115,3 +115,39 @@ Proof.
   }
   apply F_to_F.
 Qed.
+
+
+
+
+
+
+
+
+Lemma ExTypTrue : (typing TmTrue TyBool).
+Proof.
+    apply T_True.
+Qed.
+
+Theorem ExTypCond : (typing (TmCond TmTrue (TmSucc TmZero) TmZero) TyNat).
+Proof.
+    assert (typing TmZero TyNat) as zero_nat.
+    {
+        apply T_Zero.
+    }    
+
+    assert (typing (TmSucc TmZero) TyNat) as one_nat.
+    {
+        apply T_Succ in zero_nat.
+        assumption.
+    }
+
+    assert (typing TmTrue TyBool) as true_bool.
+    {
+        apply ExTypTrue.
+    }
+
+    apply T_Cond.
+    - exact true_bool.
+    - exact one_nat.
+    - exact zero_nat.
+Qed.
