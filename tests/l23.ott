@@ -16,7 +16,7 @@ indexvar index, i, j, n, m  ::= {{ isa nat }} {{ coq nat }} {{ hol num }} {{ lex
 
 grammar
 t :: Tm ::=                                       {{ com terms: }}
-| ( t )                      :: M :: Paren      {{ ich [[t]] }}
+| ( t )                      :: M :: Paren      {{ ich [[t]] }} {{ ocaml int }}
 % | let p = t in t'            ::   :: Let       (+ bind b(p) in t' +)
 % | x                          ::   :: Var       {{ com variable }}
 | 0                          ::   :: Zero       {{ com constant zero }}
@@ -28,10 +28,10 @@ t :: Tm ::=                                       {{ com terms: }}
 | F                          ::   :: False      {{ com constant zero }}
 | t1 ? t2 : t3               ::   :: Cond       {{ com conditional }}
 | not t                      ::   :: Not        {{ com not }}
-| ( t1 , .. , tn )                ::   :: Tuple
-| t . i                           ::   :: TupleGet                            
-| { l1 = t1 ,  .. , ln = tn }     ::   :: Record  
-| t [ l ]                         ::   :: RecordGet
+| ( t1 , .. , tn )                ::   :: Tuple         {{ com tuple }}
+| t . i                           ::   :: TupleGet      {{ com tuple get }}
+| { l1 = t1 ,  .. , ln = tn }     ::   :: Record        {{ com record }}
+| t [ l ]                         ::   :: RecordGet     {{ com record get }}
 
 % p :: 'P_' ::=                                              
 %   | x                                 :: :: ident  (+ b = x  +)
