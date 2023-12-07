@@ -151,3 +151,16 @@ Proof.
     - exact one_nat.
     - exact zero_nat.
 Qed.
+
+
+Lemma ExRecord : redB (TmRecordGet (TmRecord ((1, TmPred TmZero)::nil)) 1) TmZero.
+Proof.
+  (* Prove the inner reduction: TmPred TmZero reduces to TmZero *)
+  assert ( redB (TmPred TmZero) TmZero) as one.
+  {
+    apply EB_PredZero.
+    apply EB_Val.
+    simpl. reflexivity.
+  }
+  (* now what??? *)
+Qed.
